@@ -1,0 +1,51 @@
+.container {
+    width: 98.82dvw;
+    height: 100dvh;
+    overflow-x: hidden;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .header {
+        width: 100%;
+        height: 10%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        h1 {
+            font-size: 1.5rem;
+        }
+    }
+
+    .map {
+        width: 100%;
+        height: 85%;
+        border: solid 1px crimson;
+
+    }
+
+    .footer {
+        width: 100%;
+        height: 5%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-right: 15%;
+        
+        .year, .author {
+            font-size: 1rem;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .author {
+            margin-right: 1%;
+            cursor: pointer;
+        }
+
+        .author:hover {
+            font-weight: 600;
+        }
+    }
+}
