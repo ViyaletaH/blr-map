@@ -2,33 +2,45 @@ import Search from "./Search";
 import Guide from "./Guide";
 import { useEffect, useRef } from "react";
 import { loadModules } from "esri-loader";
-import MapView from "@arcgis/core/views/MapView.js";
+import MapView from "@arcgis/core/views/MapView";
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 
 const Map = () => {
   const MapElement = useRef(null);
 
   useEffect(() => {
-    let view: MapView | null;
+    const setupMap = async () => {
+      const [Map, MapView, FeatureLayer] = await loadModules([
+        'esri/Map',
+        'esri/views/MapView',
+        'esri/layers/FeatureLayer'
+      ]);
 
-    loadModules(["esri/views/MapView", "esri/WebMap"], { css: true }).then(
-      ([MapView, WebMap]) => {
-        const webMap = new WebMap({
-          basemap: "osm",
-          portalUrl: "https://www.arcgis.com",
-        });
-        view = new MapView({
-          map: webMap,
-          center: [],
-          zoom: 8,
-          container: MapElement.current,
-        });
-      }
-    );
-    return () => {
-      if (!view) {
-        view = null;
-      }
+      const map = new Map({
+        basemap: 'osm'
+      });
+
+      const view = new MapView({
+        container: MapElement.current,
+        map: map,
+        center: [27.9534, 53.7098],
+        zoom: 7
+      });
+
+      const waterwaysLayer = new FeatureLayer({
+        url:
+          'https://services-eu1.arcgis.com/zci5bUiJ8olAal7N/arcgis/rest/services/OSM_Waterways_EU/FeatureServer/0'
+      });
+
+        map.add(waterwaysLayer);
+        const isOSMAdded = map.basemap && map.basemap.id === 'osm';
+        const isLayerAdded = map.layers.some((layer: FeatureLayer) => layer === waterwaysLayer);
+  
+        console.log('OSM basemap added:', isOSMAdded);
+        console.log('FeatureLayer added:', isLayerAdded);
     };
+
+    setupMap();
   }, []);
 
   return (
