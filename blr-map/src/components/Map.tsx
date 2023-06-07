@@ -32,12 +32,32 @@ const Map = () => {
           'https://services-eu1.arcgis.com/zci5bUiJ8olAal7N/arcgis/rest/services/OSM_Waterways_EU/FeatureServer/0'
       });
 
-        map.add(waterwaysLayer);
+      const roadsLayer = new FeatureLayer({
+        url: 'https://services-eu1.arcgis.com/zci5bUiJ8olAal7N/arcgis/rest/services/OSM_Highways_EU/FeatureServer'
+      });
+
+      const touristLayer = new FeatureLayer({
+        url: 'https://services-eu1.arcgis.com/zci5bUiJ8olAal7N/arcgis/rest/services/OSM_Tourism_EU/FeatureServer'
+      })
+
+      const botanicLayer = new FeatureLayer({
+        url: 'https://services-eu1.arcgis.com/zci5bUiJ8olAal7N/arcgis/rest/services/OSM_Leisure_EU/FeatureServer'
+      })
+
+        map.addMany([waterwaysLayer, roadsLayer, touristLayer, botanicLayer]);
         const isOSMAdded = map.basemap && map.basemap.id === 'osm';
-        const isLayerAdded = map.layers.some((layer: FeatureLayer) => layer === waterwaysLayer);
+        const isWaterAdded = map.layers.some((layer: FeatureLayer) => layer === waterwaysLayer);
+        const isRoadAdded = map.layers.some((layer: FeatureLayer) => layer === roadsLayer);
+        const isTouristAdded = map.layers.some((layer: FeatureLayer) => layer === touristLayer);
+        const isBotanicAdded = map.layers.some((layer: FeatureLayer) => layer === botanicLayer);
+
   
         console.log('OSM basemap added:', isOSMAdded);
-        console.log('FeatureLayer added:', isLayerAdded);
+        console.log('water added:', isWaterAdded);
+        console.log('road added:', isRoadAdded);
+        console.log('tourist added:', isTouristAdded);
+        console.log('botanic added:', isBotanicAdded);
+
     };
 
     setupMap();
