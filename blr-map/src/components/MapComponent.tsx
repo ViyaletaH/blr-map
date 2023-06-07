@@ -27,7 +27,7 @@ const MapComponent = () => {
       });
 
       const view = new MapView({
-        container: MapElement.current,
+        container:  "viewDiv",
         map: map,
         center: [27.9534, 53.7098],
         zoom: 7
@@ -62,7 +62,7 @@ const MapComponent = () => {
         <Search />
         <Guide />
       </div>
-      <div className="map" ref={MapElement}></div>
+      <div  id="viewDiv" className="map" ref={MapElement}></div>
     </>
   );
 };
