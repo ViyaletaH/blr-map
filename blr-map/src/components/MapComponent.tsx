@@ -4,12 +4,11 @@ import { useEffect, useRef } from "react";
 import { loadModules } from "esri-loader";
 
 enum LayerURLs {
-  Waterways = 'https://services-eu1.arcgis.com/zci5bUiJ8olAal7N/arcgis/rest/services/OSM_Waterways_EU/FeatureServer/0',
-  Roads = 'https://services-eu1.arcgis.com/zci5bUiJ8olAal7N/arcgis/rest/services/OSM_Highways_EU/FeatureServer/0',
-  Tourist = 'https://services-eu1.arcgis.com/zci5bUiJ8olAal7N/arcgis/rest/services/OSM_Tourism_EU/FeatureServer/0',
-  Botanic = 'https://services-eu1.arcgis.com/zci5bUiJ8olAal7N/arcgis/rest/services/OSM_Leisure_EU/FeatureServer/0',
+  Waterways = "https://services-eu1.arcgis.com/zci5bUiJ8olAal7N/arcgis/rest/services/OSM_Waterways_EU/FeatureServer/0",
+  Roads = "https://services-eu1.arcgis.com/zci5bUiJ8olAal7N/arcgis/rest/services/OSM_Highways_EU/FeatureServer/0",
+  Tourist = "https://services-eu1.arcgis.com/zci5bUiJ8olAal7N/arcgis/rest/services/OSM_Tourism_EU/FeatureServer/0",
+  Botanic = "https://services-eu1.arcgis.com/zci5bUiJ8olAal7N/arcgis/rest/services/OSM_Leisure_EU/FeatureServer/0",
 }
-
 
 const MapComponent = () => {
   const MapElement = useRef(null);
@@ -17,40 +16,39 @@ const MapComponent = () => {
   useEffect(() => {
     const setupMap = async () => {
       const [Map, MapView, FeatureLayer] = await loadModules([
-        'esri/Map',
-        'esri/views/MapView',
-        'esri/layers/FeatureLayer'
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/layers/FeatureLayer",
       ]);
 
       const map = new Map({
-        basemap: 'osm'
+        basemap: "osm",
       });
 
       const view = new MapView({
-        container:  "viewDiv",
+        container: "viewDiv",
         map: map,
         center: [27.9534, 53.7098],
-        zoom: 7
+        zoom: 7,
       });
 
       const waterwaysLayer = new FeatureLayer({
-        url: LayerURLs.Waterways
+        url: LayerURLs.Waterways,
       });
 
       const roadsLayer = new FeatureLayer({
-        url: LayerURLs.Roads
+        url: LayerURLs.Roads,
       });
 
       const touristLayer = new FeatureLayer({
-        url: LayerURLs.Tourist
-      })
+        url: LayerURLs.Tourist,
+      });
 
       const botanicLayer = new FeatureLayer({
-        url: LayerURLs.Botanic
-      })
+        url: LayerURLs.Botanic,
+      });
 
-        map.addMany([waterwaysLayer, roadsLayer, touristLayer, botanicLayer]);
-
+      map.addMany([waterwaysLayer, roadsLayer, touristLayer, botanicLayer]);
     };
 
     setupMap();
@@ -62,7 +60,7 @@ const MapComponent = () => {
         <Search />
         <Guide />
       </div>
-      <div  id="viewDiv" className="map" ref={MapElement}></div>
+      <div id="viewDiv" className="map" ref={MapElement}></div>
     </>
   );
 };
