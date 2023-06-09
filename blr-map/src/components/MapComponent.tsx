@@ -108,7 +108,9 @@ const MapComponent = () => {
     };
 
     setupMap();
+
   }, [visibleLayers]);
+
 
   return (
     <>
@@ -116,6 +118,7 @@ const MapComponent = () => {
         <Search />
         <Guide legend={legendInfo} updateLayerVisibility={updateLayerVisibility} />
       </div>
+      <img className="default-icon" src="/circle.png" alt="default view" title="Map default view" onClick={() => (location.reload())}/>
       <div id="viewDiv" className="map" ref={MapElement}></div>
     </>
   );

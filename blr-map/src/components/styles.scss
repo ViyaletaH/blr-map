@@ -23,6 +23,16 @@ $text-violet: #821071;
     }
   }
 
+  .default-icon {
+    width: 4rem;
+    height: 4rem;
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    bottom: 27rem;
+    margin-left: 3.5%;
+  }
+
   .guide {
     position: absolute;
     display: flex;
