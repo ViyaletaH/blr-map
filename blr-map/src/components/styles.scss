@@ -22,6 +22,14 @@ $main-violet: #bc20d7;
     }
   }
 
+  .guide {
+    position: absolute;
+
+    .layer-name {
+      cursor: pointer;
+    }
+  }
+
   .map {
     width: 100%;
     height: 85%;
