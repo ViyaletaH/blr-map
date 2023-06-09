@@ -1,4 +1,5 @@
 import { Legend } from "./MapComponent";
+import { useState } from "react";
 
 interface GuideProps {
   legend: Legend[];
@@ -6,21 +7,42 @@ interface GuideProps {
 }
 
 const Guide = ({ legend, updateLayerVisibility }: GuideProps) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [chosen, setChosen] = useState<string | null>(null);
+
+  const toggleVisibility = () => {
+    setIsVisible(!isVisible);
+  };
+
+  const toggleChoice = (layerName: string) => {
+    if (chosen === layerName) {
+      setChosen(null);
+    } else {
+      setChosen(layerName);
+    }
+  };
+
   const handleClick = (layerName: string) => {
     updateLayerVisibility(layerName);
+    toggleChoice(layerName);
   };
 
   return (
     <div className="guide">
-      <h2>Legend</h2>
-      {legend.map((item: Legend, index: number) => (
-        <div key={index}>
-          <span className="layer-name" onClick={() => handleClick(item.layerName)}>
-            {item.layerName}
-          </span>
-          {/* <img src={item.symbol} alt={item.label} /> */}
-        </div>
-      ))}
+      <img className="guide-arrow" src="/arrow.png" alt="guiding list" onClick={toggleVisibility} title="Map guide"/>
+      <div className={isVisible ? 'guide-list' : 'guide-list-hidden'}>
+        <h2>Legend</h2>
+        {legend.map((item: Legend, index: number) => (
+          <div key={index}>
+            <span
+              className={chosen === item.layerName ? 'chosen-layer-name' : 'layer-name'}
+              onClick={() => handleClick(item.layerName)}
+            >
+              {item.layerName}
+            </span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

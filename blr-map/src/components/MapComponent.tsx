@@ -22,17 +22,14 @@ const MapComponent = () => {
   const [visibleLayers, setVisibleLayers] = useState<string[]>([]);
 
   const updateLayerVisibility = (layerName: string) => {
-    alert(`before:${visibleLayers}`);
     const isVisible = visibleLayers.includes(layerName);
 
     if (isVisible) {
       setVisibleLayers(prevVisibleLayers =>
         prevVisibleLayers.filter(layer => layer !== layerName)
       );
-      alert(`after:${visibleLayers}`);
     } else {
       setVisibleLayers(prevVisibleLayers => [...prevVisibleLayers, layerName]);
-      alert(`after:${visibleLayers}`);
     }
   };
 
@@ -108,9 +105,6 @@ const MapComponent = () => {
       });
 
       setLegendInfo(legendItems);
-
-      console.log(botanicLayerInfo.renderer.symbol)
-
     };
 
     setupMap();

@@ -1,4 +1,5 @@
 $main-violet: #bc20d7;
+$text-violet: #821071;
 
 .container {
   width: 98.82dvw;
@@ -18,15 +19,52 @@ $main-violet: #bc20d7;
 
     h1 {
       font-size: 1.5rem;
-      color: #821071;
+      color: $text-violet;
     }
   }
 
   .guide {
     position: absolute;
-
-    .layer-name {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    left: 0;
+    bottom: 6rem;
+    margin-left: 4%;
+    .guide-arrow {
+      width: 3rem;
+      height: 3rem;
+      transform: scale(-1, 1);
       cursor: pointer;
+      animation: transformation 6s infinite;
+    }
+
+    .guide-list {
+
+      h2 {
+        color: $text-violet;
+        margin-block-start: 0px;
+      }
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #ffffff8f;
+      border-radius: 15px;
+      padding: 10%;
+
+      .layer-name {
+        cursor: pointer;
+      }
+
+      .chosen-layer-name {
+        text-shadow: $main-violet 3px 0 5px;
+      }
+    }
+
+    .guide-list-hidden {
+      display: none;
     }
   }
 
@@ -60,7 +98,6 @@ $main-violet: #bc20d7;
       cursor: pointer;
       box-shadow: 1px 0px 5px 1px $main-violet;
       border-radius: 10px;
-      background-image: url('https://www.nicepng.com/png/detail/236-2368946_neon-and-purple-image-minus-sign-clip-art.png');
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
@@ -111,4 +148,23 @@ $main-violet: #bc20d7;
       font-weight: 600;
     }
   }
+
+  @keyframes transformation {
+    0% {
+      transform: rotateY(0deg);
+    }
+    25% {
+      transform: rotateY(90deg);
+    }
+    50% {
+      transform: rotateY(180deg);
+    }
+    75% {
+      transform: rotateY(270deg);
+    }
+    100% {
+      transform: rotateY(360deg);
+    }
+  }
 }
+
