@@ -7,7 +7,7 @@ interface SearchParams {
 const Search = ({ onAddressInput }: SearchParams) => {
   const [inputAddress, setInputAddress] = useState<string>('');
 
-  const handleSearch = (event: KeyboardEventHandler<HTMLInputElement>) => {
+  const handleSearch: KeyboardEventHandler<HTMLInputElement> = (event) => {
     if (event.key === 'Enter' && inputAddress.length) {
       onAddressInput(inputAddress);
     }
@@ -16,7 +16,7 @@ const Search = ({ onAddressInput }: SearchParams) => {
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputAddress(event.target.value);
   };
-  
+
   return (
     <div className="search">
       <input type="text" onKeyDown={handleSearch} onChange={handleInputChange} />
