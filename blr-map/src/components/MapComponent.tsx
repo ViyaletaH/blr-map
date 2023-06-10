@@ -27,7 +27,6 @@ const MapComponent = () => {
 
   const handleAddressInput = (inputAddress: string) => {
     setAddress(inputAddress);
-    alert(inputAddress)
   };
 
   const updateLayerVisibility = (layerName: string) => {
@@ -189,6 +188,7 @@ const MapComponent = () => {
           updateLayerVisibility={updateLayerVisibility}
         />
       </div>
+      <img className="default-icon" src="/circle.png" alt="default view" title="Map default view" onClick={() => (location.reload())}/>
       <div id="viewDiv" className="map" ref={MapElement}></div>
     </>
   );
