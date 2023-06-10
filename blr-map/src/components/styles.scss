@@ -59,17 +59,48 @@ $text-violet: #821071;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
       background-color: #ffffff8f;
       border-radius: 15px;
       padding: 10%;
+      width: 9rem;
+
 
       .layer-name {
         cursor: pointer;
       }
 
-      .chosen-layer-name {
-        text-shadow: $main-violet 3px 0 5px;
+      input[type="checkbox"] {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        width: 16px;
+        height: 16px;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        outline: none;
+        cursor: pointer;
+        position: relative;
+      }
+      
+      input[type="checkbox"]::before {
+        content: "";
+        position: absolute;
+        top: 0px;
+        left: 3px;
+        width: 4px;
+        height: 8px;
+        border: solid $main-violet;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+        transition: background-color 0.3s ease;
+        opacity: 0;
+      }
+      
+      input[type="checkbox"]:checked::before {
+        opacity: 1;
       }
     }
 

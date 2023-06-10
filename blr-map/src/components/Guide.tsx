@@ -34,12 +34,13 @@ const Guide = ({ legend, updateLayerVisibility }: GuideProps) => {
         <h2>Legend</h2>
         {legend.map((item: Legend, index: number) => (
           <div key={index}>
-            <span
+            <label>
+            <input type="checkbox"
               className={chosen === item.layerName ? 'chosen-layer-name' : 'layer-name'}
               onClick={() => handleClick(item.layerName)}
-            >
+            />
               {item.layerName}
-            </span>
+            </label>
           </div>
         ))}
       </div>
