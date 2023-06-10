@@ -19,7 +19,7 @@ const Search = ({ onAddressInput }: SearchParams) => {
 
   return (
     <div className="search">
-      <input type="text" onKeyDown={handleSearch} onChange={handleInputChange} />
+      <input type="text" onKeyDown={handleSearch} onChange={handleInputChange} placeholder="Type the address, press Enter button"/>
     </div>
   )
 }

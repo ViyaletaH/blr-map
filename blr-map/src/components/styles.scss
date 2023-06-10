@@ -1,5 +1,6 @@
 $main-violet: #bc20d7;
 $text-violet: #821071;
+$transparent: #ffffff8f;
 
 .container {
   width: 98.82dvw;
@@ -33,6 +34,27 @@ $text-violet: #821071;
     margin-left: 3.5%;
   }
 
+  .search {
+    position: absolute;
+    right: 3%;
+    top: 12%;
+
+    input {
+      width: 15rem;
+      height: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 1px 0px 5px 1px $main-violet;
+      border: none;
+      outline: none;
+      background-color: $transparent;
+      padding-left: 5.5%;
+    }
+
+    input:focus {
+      outline: none;
+    }
+  }
+
   .guide {
     position: absolute;
     display: flex;
@@ -60,7 +82,7 @@ $text-violet: #821071;
       flex-direction: column;
       justify-content: space-between;
       align-items: flex-start;
-      background-color: #ffffff8f;
+      background-color: $transparent;
       border-radius: 15px;
       padding: 10%;
       width: 9rem;
