@@ -20,16 +20,14 @@ const MapComponent = () => {
   const MapElement = useRef(null);
   const [legendInfo, setLegendInfo] = useState<Legend[]>([]);
   const [visibleLayers, setVisibleLayers] = useState<string[]>([]);
-  const [address, setAddress] = useState<string>('');
+  const [address, setAddress] = useState<string>('1600 Pennsylvania Ave NW, DC');
 
-  const geocodingServiceUrl =
+  const serviceUrl =
     "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer";
 
   const handleAddressInput = (inputAddress: string) => {
     setAddress(inputAddress);
   };
-
-
 
   const updateLayerVisibility = (layerName: string) => {
     const isVisible = visibleLayers.includes(layerName);
@@ -48,13 +46,19 @@ const MapComponent = () => {
 
   useEffect(() => {
     const setupMap = async () => {
-      const [Map, MapView, FeatureLayer] = await loadModules([
+      const [esriConfig, Map, MapView, FeatureLayer, locator, Graphic, WebStyleSymbol] = await loadModules([
+        "esri/config",
         "esri/Map",
         "esri/views/MapView",
         "esri/layers/FeatureLayer",
+        "esri/rest/locator",
+        "esri/Graphic",
+        "esri/symbols/WebStyleSymbol",
       ]);
 
       const legendItems = [];
+
+      esriConfig.apiKey = 'AAPK1637ff3ebf254471ab9a28b47a8a7ebetBHKpjaGpWHEtmgl6lIa1DeZieisAZPMBvawPi5frYF7ksc97kV5SgJxxyg766h5';
 
       const map = new Map({
         basemap: "osm",
@@ -124,10 +128,57 @@ const MapComponent = () => {
 
       setLegendInfo(legendItems);
 
+      const params = {
+        address: {
+          address: address,
+        },
+      };
+
+      const showResult = (results: [any]) => {
+        if (results.length) {
+          const result = results[0];
+          const resultGraphic = new Graphic({
+            symbol: {
+              type: "simple-marker",
+              color: "#821071",
+              size: "12px",
+              outline: {
+                color: "#bc20d7",
+                width: "2px"}
+              },
+            geometry: result.location,
+            attributes: {
+              title: "Address",
+              address: result.address,
+            },
+            popupTemplate: {
+              title: "{title}",
+              content: `${address}<br>${result.location.longitude}`,
+            },
+          });
+          view.graphics.add(resultGraphic);
+          view.goTo({
+            target: resultGraphic,
+            zoom: 12,
+          }).then(() => {
+            view.popup.open({
+              features: [resultGraphic],
+              location: resultGraphic.geometry,
+            });
+          });
+        }
+      };
+
+      locator.addressToLocations(serviceUrl, params).then((results: [object]) => {
+        view.when(() => {
+          showResult(results);
+        });
+      });
+
     };
 
     setupMap();
-  }, [visibleLayers]);
+  }, [visibleLayers, address]);
 
   return (
     <>
