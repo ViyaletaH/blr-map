@@ -20,13 +20,14 @@ const MapComponent = () => {
   const MapElement = useRef(null);
   const [legendInfo, setLegendInfo] = useState<Legend[]>([]);
   const [visibleLayers, setVisibleLayers] = useState<string[]>([]);
-  const [address, setAddress] = useState<string>('1600 Pennsylvania Ave NW, DC');
+  const [address, setAddress] = useState<string>('');
 
   const serviceUrl =
     "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer";
 
   const handleAddressInput = (inputAddress: string) => {
     setAddress(inputAddress);
+    alert(inputAddress)
   };
 
   const updateLayerVisibility = (layerName: string) => {
@@ -46,14 +47,13 @@ const MapComponent = () => {
 
   useEffect(() => {
     const setupMap = async () => {
-      const [esriConfig, Map, MapView, FeatureLayer, locator, Graphic, WebStyleSymbol] = await loadModules([
+      const [esriConfig, Map, MapView, FeatureLayer, locator, Graphic] = await loadModules([
         "esri/config",
         "esri/Map",
         "esri/views/MapView",
         "esri/layers/FeatureLayer",
         "esri/rest/locator",
         "esri/Graphic",
-        "esri/symbols/WebStyleSymbol",
       ]);
 
       const legendItems = [];
