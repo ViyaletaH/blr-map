@@ -165,6 +165,8 @@ const MapComponent = () => {
               location: resultGraphic.geometry,
             });
           });
+        } if(!results.length && address.length) {
+          alert(`No such address!`);
         }
       };
 
