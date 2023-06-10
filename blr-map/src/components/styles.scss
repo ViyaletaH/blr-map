@@ -70,6 +70,10 @@ $text-violet: #821071;
         cursor: pointer;
       }
 
+      .checkbox-variant {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
       input[type="checkbox"] {
         appearance: none;
         -webkit-appearance: none;
@@ -102,6 +106,7 @@ $text-violet: #821071;
       input[type="checkbox"]:checked::before {
         opacity: 1;
       }
+    }
     }
 
     .guide-list-hidden {

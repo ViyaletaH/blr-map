@@ -20,16 +20,29 @@ const MapComponent = () => {
   const MapElement = useRef(null);
   const [legendInfo, setLegendInfo] = useState<Legend[]>([]);
   const [visibleLayers, setVisibleLayers] = useState<string[]>([]);
+  const [address, setAddress] = useState<string>('');
+
+  const geocodingServiceUrl =
+    "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer";
+
+  const handleAddressInput = (inputAddress: string) => {
+    setAddress(inputAddress);
+  };
+
+
 
   const updateLayerVisibility = (layerName: string) => {
     const isVisible = visibleLayers.includes(layerName);
 
     if (isVisible) {
-      setVisibleLayers(prevVisibleLayers =>
-        prevVisibleLayers.filter(layer => layer !== layerName)
+      setVisibleLayers((prevVisibleLayers) =>
+        prevVisibleLayers.filter((layer) => layer !== layerName)
       );
     } else {
-      setVisibleLayers(prevVisibleLayers => [...prevVisibleLayers, layerName]);
+      setVisibleLayers((prevVisibleLayers) => [
+        ...prevVisibleLayers,
+        layerName,
+      ]);
     }
   };
 
@@ -48,7 +61,7 @@ const MapComponent = () => {
       });
 
       const view = new MapView({
-        container: "viewDiv",
+        container: MapElement.current,
         map: map,
         center: [27.9534, 53.7098],
         zoom: 7,
@@ -56,69 +69,75 @@ const MapComponent = () => {
 
       const waterwaysLayer = new FeatureLayer({
         url: LayerURLs.Waterways,
-        visible: visibleLayers.includes("Waterways")
+        visible: visibleLayers.includes("Waterways"),
       });
 
       const roadsLayer = new FeatureLayer({
         url: LayerURLs.Roads,
-        visible: visibleLayers.includes("Roads")
+        visible: visibleLayers.includes("Roads"),
       });
 
       const touristLayer = new FeatureLayer({
         url: LayerURLs.Tourist,
-        visible: visibleLayers.includes("Tourist")
+        visible: visibleLayers.includes("Tourist"),
       });
 
       const botanicLayer = new FeatureLayer({
         url: LayerURLs.Botanic,
-        visible: visibleLayers.includes("Botanic")
+        visible: visibleLayers.includes("Botanic"),
       });
 
       map.addMany([waterwaysLayer, roadsLayer, touristLayer, botanicLayer]);
 
-      const [waterwaysLayerInfo, roadsLayerInfo, touristLayerInfo, botanicLayerInfo] = await Promise.all([
+      const [
+        waterwaysLayerInfo,
+        roadsLayerInfo,
+        touristLayerInfo,
+        botanicLayerInfo,
+      ] = await Promise.all([
         waterwaysLayer.load(),
         roadsLayer.load(),
         touristLayer.load(),
-        botanicLayer.load()
+        botanicLayer.load(),
       ]);
 
       legendItems.push({
         layerName: "Waterways",
         symbol: waterwaysLayerInfo.renderer.symbol,
-        label: "Waterways"
+        label: "Waterways",
       });
       legendItems.push({
         layerName: "Roads",
         symbol: roadsLayerInfo.renderer.symbol,
-        label: "Roads"
+        label: "Roads",
       });
       legendItems.push({
         layerName: "Tourist",
         symbol: touristLayerInfo.renderer.symbol,
-        label: "Tourist"
+        label: "Tourist",
       });
       legendItems.push({
         layerName: "Botanic",
         symbol: botanicLayerInfo.renderer.symbol,
-        label: "Botanic"
+        label: "Botanic",
       });
 
       setLegendInfo(legendItems);
+
     };
 
     setupMap();
-
   }, [visibleLayers]);
-
 
   return (
     <>
       <div>
-        <Search />
-        <Guide legend={legendInfo} updateLayerVisibility={updateLayerVisibility} />
+        <Search onAddressInput={handleAddressInput} />
+        <Guide
+          legend={legendInfo}
+          updateLayerVisibility={updateLayerVisibility}
+        />
       </div>
-      <img className="default-icon" src="/circle.png" alt="default view" title="Map default view" onClick={() => (location.reload())}/>
       <div id="viewDiv" className="map" ref={MapElement}></div>
     </>
   );
