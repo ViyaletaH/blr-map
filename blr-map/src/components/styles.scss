@@ -98,7 +98,7 @@ $transparent: #ffffff8f;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        input[type="checkbox"] {
+        input[type='checkbox'] {
           appearance: none;
           -webkit-appearance: none;
           -moz-appearance: none;
@@ -111,8 +111,8 @@ $transparent: #ffffff8f;
           position: relative;
         }
 
-        input[type="checkbox"]::before {
-          content: "";
+        input[type='checkbox']::before {
+          content: '';
           position: absolute;
           top: 0px;
           left: 3px;
@@ -127,7 +127,7 @@ $transparent: #ffffff8f;
           opacity: 0;
         }
 
-        input[type="checkbox"]:checked::before {
+        input[type='checkbox']:checked::before {
           opacity: 1;
         }
       }
@@ -225,11 +225,11 @@ $transparent: #ffffff8f;
     }
 
     .esri-icon.esri-icon-minus {
-      background-image: url("/minus.png");
+      background-image: url('/minus.png');
     }
 
     .esri-icon.esri-icon-plus {
-      background-image: url("/plus.png");
+      background-image: url('/plus.png');
     }
 
     .esri-icon-font-fallback-text {
@@ -240,7 +240,7 @@ $transparent: #ffffff8f;
   .esri-component.esri-attribution.esri-widget {
     display: flex;
     font-size: 0.8rem;
-    font-family: "Courier New", Courier, monospace;
+    font-family: 'Courier New', Courier, monospace;
     padding-top: 0.3%;
   }
 
@@ -255,7 +255,7 @@ $transparent: #ffffff8f;
     .year,
     .author {
       font-size: 1rem;
-      font-family: "Courier New", Courier, monospace;
+      font-family: 'Courier New', Courier, monospace;
     }
 
     .author {
@@ -335,8 +335,6 @@ $transparent: #ffffff8f;
         color: $text-violet;
         border-radius: 20px;
       }
-
-      
     }
 
     .esri-popup__button.esri-popup__action {

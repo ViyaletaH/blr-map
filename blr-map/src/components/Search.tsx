@@ -1,7 +1,7 @@
-import { ChangeEvent, useState, KeyboardEventHandler } from "react";
+import { ChangeEvent, useState, KeyboardEventHandler } from 'react';
 
 interface SearchParams {
-  onAddressInput: (inputAddress: string) => void
+  onAddressInput: (inputAddress: string) => void;
 }
 
 const Search = ({ onAddressInput }: SearchParams) => {
@@ -11,7 +11,7 @@ const Search = ({ onAddressInput }: SearchParams) => {
     if (event.key === 'Enter' && inputAddress.length) {
       onAddressInput(inputAddress);
     }
-  }
+  };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputAddress(event.target.value);
@@ -19,9 +19,14 @@ const Search = ({ onAddressInput }: SearchParams) => {
 
   return (
     <div className="search">
-      <input type="text" onKeyDown={handleSearch} onChange={handleInputChange} placeholder="Type the address, press Enter button"/>
+      <input
+        type="text"
+        onKeyDown={handleSearch}
+        onChange={handleInputChange}
+        placeholder="Type the address, press Enter button"
+      />
     </div>
-  )
-}
+  );
+};
 
-export default Search
+export default Search;

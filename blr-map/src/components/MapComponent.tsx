@@ -1,13 +1,13 @@
-import Search from "./Search";
-import Guide from "./Guide";
-import { useEffect, useRef, useState } from "react";
-import { loadModules } from "esri-loader";
+import Search from './Search';
+import Guide from './Guide';
+import { useEffect, useRef, useState } from 'react';
+import { loadModules } from 'esri-loader';
 
 enum LayerURLs {
-  Waterways = "https://services-eu1.arcgis.com/zci5bUiJ8olAal7N/arcgis/rest/services/OSM_Waterways_EU/FeatureServer/0",
-  Roads = "https://services-eu1.arcgis.com/zci5bUiJ8olAal7N/arcgis/rest/services/OSM_Highways_EU/FeatureServer/0",
-  Tourist = "https://services-eu1.arcgis.com/zci5bUiJ8olAal7N/arcgis/rest/services/OSM_Tourism_EU/FeatureServer/0",
-  Botanic = "https://services-eu1.arcgis.com/zci5bUiJ8olAal7N/arcgis/rest/services/OSM_Leisure_EU/FeatureServer/0",
+  Waterways = 'https://services-eu1.arcgis.com/zci5bUiJ8olAal7N/arcgis/rest/services/OSM_Waterways_EU/FeatureServer/0',
+  Roads = 'https://services-eu1.arcgis.com/zci5bUiJ8olAal7N/arcgis/rest/services/OSM_Highways_EU/FeatureServer/0',
+  Tourist = 'https://services-eu1.arcgis.com/zci5bUiJ8olAal7N/arcgis/rest/services/OSM_Tourism_EU/FeatureServer/0',
+  Botanic = 'https://services-eu1.arcgis.com/zci5bUiJ8olAal7N/arcgis/rest/services/OSM_Leisure_EU/FeatureServer/0',
 }
 
 export interface Legend {
@@ -27,8 +27,7 @@ const MapComponent = () => {
     setIsVisible(!isVisible);
   };
 
-  const serviceUrl =
-    "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer";
+  const serviceUrl = 'https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer';
 
   const handleAddressInput = (inputAddress: string) => {
     setAddress(inputAddress);
@@ -42,30 +41,28 @@ const MapComponent = () => {
         prevVisibleLayers.filter((layer) => layer !== layerName)
       );
     } else {
-      setVisibleLayers((prevVisibleLayers) => [
-        ...prevVisibleLayers,
-        layerName,
-      ]);
+      setVisibleLayers((prevVisibleLayers) => [...prevVisibleLayers, layerName]);
     }
   };
 
   useEffect(() => {
     const setupMap = async () => {
       const [esriConfig, Map, MapView, FeatureLayer, locator, Graphic] = await loadModules([
-        "esri/config",
-        "esri/Map",
-        "esri/views/MapView",
-        "esri/layers/FeatureLayer",
-        "esri/rest/locator",
-        "esri/Graphic",
+        'esri/config',
+        'esri/Map',
+        'esri/views/MapView',
+        'esri/layers/FeatureLayer',
+        'esri/rest/locator',
+        'esri/Graphic',
       ]);
 
       const legendItems = [];
 
-      esriConfig.apiKey = 'AAPK1637ff3ebf254471ab9a28b47a8a7ebetBHKpjaGpWHEtmgl6lIa1DeZieisAZPMBvawPi5frYF7ksc97kV5SgJxxyg766h5';
+      esriConfig.apiKey =
+        'AAPK1637ff3ebf254471ab9a28b47a8a7ebetBHKpjaGpWHEtmgl6lIa1DeZieisAZPMBvawPi5frYF7ksc97kV5SgJxxyg766h5';
 
       const map = new Map({
-        basemap: "osm",
+        basemap: 'osm',
       });
 
       const view = new MapView({
@@ -77,57 +74,53 @@ const MapComponent = () => {
 
       const waterwaysLayer = new FeatureLayer({
         url: LayerURLs.Waterways,
-        visible: visibleLayers.includes("Waterways"),
+        visible: visibleLayers.includes('Waterways'),
       });
 
       const roadsLayer = new FeatureLayer({
         url: LayerURLs.Roads,
-        visible: visibleLayers.includes("Roads"),
+        visible: visibleLayers.includes('Roads'),
       });
 
       const touristLayer = new FeatureLayer({
         url: LayerURLs.Tourist,
-        visible: visibleLayers.includes("Tourist"),
+        visible: visibleLayers.includes('Tourist'),
       });
 
       const botanicLayer = new FeatureLayer({
         url: LayerURLs.Botanic,
-        visible: visibleLayers.includes("Botanic"),
+        visible: visibleLayers.includes('Botanic'),
       });
 
       map.addMany([waterwaysLayer, roadsLayer, touristLayer, botanicLayer]);
 
-      const [
-        waterwaysLayerInfo,
-        roadsLayerInfo,
-        touristLayerInfo,
-        botanicLayerInfo,
-      ] = await Promise.all([
-        waterwaysLayer.load(),
-        roadsLayer.load(),
-        touristLayer.load(),
-        botanicLayer.load(),
-      ]);
+      const [waterwaysLayerInfo, roadsLayerInfo, touristLayerInfo, botanicLayerInfo] =
+        await Promise.all([
+          waterwaysLayer.load(),
+          roadsLayer.load(),
+          touristLayer.load(),
+          botanicLayer.load(),
+        ]);
 
       legendItems.push({
-        layerName: "Waterways",
+        layerName: 'Waterways',
         symbol: waterwaysLayerInfo.renderer.symbol,
-        label: "Waterways",
+        label: 'Waterways',
       });
       legendItems.push({
-        layerName: "Roads",
+        layerName: 'Roads',
         symbol: roadsLayerInfo.renderer.symbol,
-        label: "Roads",
+        label: 'Roads',
       });
       legendItems.push({
-        layerName: "Tourist",
+        layerName: 'Tourist',
         symbol: touristLayerInfo.renderer.symbol,
-        label: "Tourist",
+        label: 'Tourist',
       });
       legendItems.push({
-        layerName: "Botanic",
+        layerName: 'Botanic',
         symbol: botanicLayerInfo.renderer.symbol,
-        label: "Botanic",
+        label: 'Botanic',
       });
 
       setLegendInfo(legendItems);
@@ -144,34 +137,38 @@ const MapComponent = () => {
           const result = results[0];
           const resultGraphic = new Graphic({
             symbol: {
-              type: "simple-marker",
-              color: "#821071",
-              size: "12px",
+              type: 'simple-marker',
+              color: '#821071',
+              size: '12px',
               outline: {
-                color: "#bc20d7",
-                width: "2px"}
+                color: '#bc20d7',
+                width: '2px',
               },
+            },
             geometry: result.location,
             attributes: {
-              title: "Address",
+              title: 'Address',
               address: result.address,
             },
             popupTemplate: {
-              title: "{title}",
+              title: '{title}',
               content: `${address}<br>${result.location.longitude}`,
             },
           });
           view.graphics.add(resultGraphic);
-          view.goTo({
-            target: resultGraphic,
-            zoom: 12,
-          }).then(() => {
-            view.popup.open({
-              features: [resultGraphic],
-              location: resultGraphic.geometry,
+          view
+            .goTo({
+              target: resultGraphic,
+              zoom: 12,
+            })
+            .then(() => {
+              view.popup.open({
+                features: [resultGraphic],
+                location: resultGraphic.geometry,
+              });
             });
-          });
-        } if(!results.length && address.length) {
+        }
+        if (!results.length && address.length) {
           setIsVisible(true);
         }
       };
@@ -181,7 +178,6 @@ const MapComponent = () => {
           showResult(results);
         });
       });
-
     };
 
     setupMap();
@@ -191,16 +187,21 @@ const MapComponent = () => {
     <>
       <div>
         <Search onAddressInput={handleAddressInput} />
-        <Guide
-          legend={legendInfo}
-          updateLayerVisibility={updateLayerVisibility}
-        />
+        <Guide legend={legendInfo} updateLayerVisibility={updateLayerVisibility} />
       </div>
-      <img className="default-icon" src="/circle.png" alt="default view" title="Map default view" onClick={() => (location.reload())}/>
+      <img
+        className="default-icon"
+        src="/circle.png"
+        alt="default view"
+        title="Map default view"
+        onClick={() => location.reload()}
+      />
       <div id="viewDiv" className="map" ref={MapElement}></div>
-      <div className={ isVisible ? "notification" : "notification-hidden"}>
+      <div className={isVisible ? 'notification' : 'notification-hidden'}>
         <span>No such address!</span>
-        <button className='ok-btn' onClick={toggleVisibility}>OK</button>
+        <button className="ok-btn" onClick={toggleVisibility}>
+          OK
+        </button>
       </div>
     </>
   );

@@ -1,7 +1,7 @@
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from './Header';
+import Footer from './Footer';
 import './styles.scss';
-import MapComponent from "./MapComponent";
+import MapComponent from './MapComponent';
 
 const Container = () => {
   return (
