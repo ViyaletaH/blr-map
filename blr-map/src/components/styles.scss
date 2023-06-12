@@ -38,6 +38,7 @@ $transparent: #ffffff8f;
     position: absolute;
     right: 3%;
     top: 12%;
+    z-index: 100;
 
     input {
       width: 15rem;
@@ -63,12 +64,14 @@ $transparent: #ffffff8f;
     left: 0;
     bottom: 6rem;
     margin-left: 4%;
+    z-index: 100;
     .guide-arrow {
       width: 3rem;
       height: 3rem;
       transform: scale(-1, 1);
       cursor: pointer;
       animation: transformation 6s infinite;
+      z-index: 100;
     }
 
     .guide-list {
@@ -139,6 +142,58 @@ $transparent: #ffffff8f;
   .map {
     width: 100%;
     height: 85%;
+    z-index: 99;
+  }
+
+  .notification {
+    position: absolute;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 20px;
+    z-index: 100;
+    width: 250px;
+    height: 130px;
+    background-color: $transparent;
+    color: $text-violet;
+    box-shadow: 1px 0px 5px 1px $main-violet;
+    visibility: visible;
+    .ok-btn {
+      width: 70px;
+      height: 30px;
+      border-radius: 20px;
+      border: solid 2px $text-violet;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      outline: none;
+      color: $text-violet;
+    }
+
+    .ok-btn:active {
+      color: #fff;
+      background-color: #bc20d7;
+      box-shadow: 1px 0px 5px 1px $main-violet;
+    }
+
+  }
+
+  .notification-hidden {
+    position: absolute;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 20px;
+    z-index: 0;
+    visibility: hidden;
+    width: 250px;
+    height: 130px;
+    background-color: $transparent;
+    color: $text-violet;
+    box-shadow: 1px 0px 5px 1px $main-violet;
   }
 
   .esri-view-user-storage {

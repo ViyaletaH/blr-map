@@ -21,6 +21,11 @@ const MapComponent = () => {
   const [legendInfo, setLegendInfo] = useState<Legend[]>([]);
   const [visibleLayers, setVisibleLayers] = useState<string[]>([]);
   const [address, setAddress] = useState<string>('');
+  const [isVisible, setIsVisible] = useState(false);
+
+  const toggleVisibility = () => {
+    setIsVisible(!isVisible);
+  };
 
   const serviceUrl =
     "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer";
@@ -166,7 +171,7 @@ const MapComponent = () => {
             });
           });
         } if(!results.length && address.length) {
-          alert(`No such address!`);
+          setIsVisible(true);
         }
       };
 
@@ -192,6 +197,10 @@ const MapComponent = () => {
       </div>
       <img className="default-icon" src="/circle.png" alt="default view" title="Map default view" onClick={() => (location.reload())}/>
       <div id="viewDiv" className="map" ref={MapElement}></div>
+      <div className={ isVisible ? "notification" : "notification-hidden"}>
+        <span>No such address!</span>
+        <button className='ok-btn' onClick={toggleVisibility}>OK</button>
+      </div>
     </>
   );
 };
