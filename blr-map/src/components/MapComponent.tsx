@@ -16,6 +16,9 @@ export interface Legend {
   label: string;
 }
 
+// interface Result {
+  
+// }
 const MapComponent = () => {
   const MapElement = useRef(null);
   const [legendInfo, setLegendInfo] = useState<Legend[]>([]);
@@ -139,6 +142,7 @@ const MapComponent = () => {
       };
 
       const showResult = (results: [any]) => {
+        console.log(results);
         if (results.length) {
           const result = results[0];
           const resultGraphic = new Graphic({

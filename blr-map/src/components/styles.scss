@@ -30,8 +30,9 @@ $transparent: #ffffff8f;
     cursor: pointer;
     position: absolute;
     left: 0;
-    bottom: 27rem;
+    bottom: 60%;
     margin-left: 3.5%;
+    z-index: 100;
   }
 
   .search {
@@ -75,7 +76,6 @@ $transparent: #ffffff8f;
     }
 
     .guide-list {
-
       h2 {
         color: $text-violet;
         margin-block-start: 0px;
@@ -90,7 +90,6 @@ $transparent: #ffffff8f;
       padding: 10%;
       width: 9rem;
 
-
       .layer-name {
         cursor: pointer;
       }
@@ -99,39 +98,39 @@ $transparent: #ffffff8f;
         display: flex;
         align-items: center;
         justify-content: space-between;
-      input[type="checkbox"] {
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        width: 16px;
-        height: 16px;
-        border: 2px solid #ccc;
-        border-radius: 4px;
-        outline: none;
-        cursor: pointer;
-        position: relative;
+        input[type="checkbox"] {
+          appearance: none;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          width: 16px;
+          height: 16px;
+          border: 2px solid #ccc;
+          border-radius: 4px;
+          outline: none;
+          cursor: pointer;
+          position: relative;
+        }
+
+        input[type="checkbox"]::before {
+          content: "";
+          position: absolute;
+          top: 0px;
+          left: 3px;
+          width: 4px;
+          height: 8px;
+          border: solid $main-violet;
+          border-width: 0 3px 3px 0;
+          -webkit-transform: rotate(45deg);
+          -ms-transform: rotate(45deg);
+          transform: rotate(45deg);
+          transition: background-color 0.3s ease;
+          opacity: 0;
+        }
+
+        input[type="checkbox"]:checked::before {
+          opacity: 1;
+        }
       }
-      
-      input[type="checkbox"]::before {
-        content: "";
-        position: absolute;
-        top: 0px;
-        left: 3px;
-        width: 4px;
-        height: 8px;
-        border: solid $main-violet;
-        border-width: 0 3px 3px 0;
-        -webkit-transform: rotate(45deg);
-        -ms-transform: rotate(45deg);
-        transform: rotate(45deg);
-        transition: background-color 0.3s ease;
-        opacity: 0;
-      }
-      
-      input[type="checkbox"]:checked::before {
-        opacity: 1;
-      }
-    }
     }
 
     .guide-list-hidden {
@@ -147,7 +146,7 @@ $transparent: #ffffff8f;
 
   .notification {
     position: absolute;
-    display:flex;
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
@@ -177,12 +176,11 @@ $transparent: #ffffff8f;
       background-color: #bc20d7;
       box-shadow: 1px 0px 5px 1px $main-violet;
     }
-
   }
 
   .notification-hidden {
     position: absolute;
-    display:flex;
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
@@ -224,15 +222,14 @@ $transparent: #ffffff8f;
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
-
     }
 
     .esri-icon.esri-icon-minus {
-        background-image: url('/minus.png');
+      background-image: url("/minus.png");
     }
 
     .esri-icon.esri-icon-plus {
-        background-image: url('/plus.png');
+      background-image: url("/plus.png");
     }
 
     .esri-icon-font-fallback-text {
@@ -289,5 +286,77 @@ $transparent: #ffffff8f;
       transform: rotateY(360deg);
     }
   }
-}
 
+  .esri-component.esri-popup.esri-popup--aligned-top-center.esri-popup--shadow {
+    position: absolute;
+    margin-bottom: 1.5%;
+    .esri-feature-content {
+      background-color: $transparent;
+      color: $text-violet;
+      font-size: 15px;
+      width: fit-content;
+      height: fit-content;
+      padding: 7px;
+      border-radius: 20px;
+      margin-bottom: 5%;
+    }
+    .esri-popup__header-container.esri-popup__header-container--button {
+      outline: none;
+      width: fit-content;
+      height: fit-content;
+      border: none;
+      background-color: $transparent;
+      font-size: 18px;
+      padding: 5%;
+      margin-bottom: 5%;
+
+      .esri-widget__heading.esri-popup__header-title {
+        margin-block-start: 5px;
+        margin-block-end: 5px;
+        font-weight: 700;
+        color: $text-violet;
+        font-size: 18px;
+      }
+
+      .esri-popup__inline-actions-container {
+        display: none;
+      }
+
+      .esri-popup__button.esri-popup__action {
+        width: 70px;
+        height: 30px;
+        border-radius: 20px;
+        border: solid 2px $text-violet;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        outline: none;
+        color: $text-violet;
+        border-radius: 20px;
+      }
+
+      
+    }
+
+    .esri-popup__button.esri-popup__action {
+      width: 110px;
+      height: fit-content;
+      cursor: pointer;
+      border-radius: 20px;
+      border: solid 2px $text-violet;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      outline: none;
+      color: $text-violet;
+      padding: 7%;
+      background-color: $transparent;
+    }
+
+    .esri-popup__feature-menu {
+      visibility: hidden;
+    }
+  }
+}
