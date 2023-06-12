@@ -16,9 +16,6 @@ export interface Legend {
   label: string;
 }
 
-// interface Result {
-  
-// }
 const MapComponent = () => {
   const MapElement = useRef(null);
   const [legendInfo, setLegendInfo] = useState<Legend[]>([]);
