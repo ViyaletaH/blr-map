@@ -22,6 +22,8 @@ const MapComponent = () => {
   const [visibleLayers, setVisibleLayers] = useState<string[]>([]);
   const [address, setAddress] = useState<string>('');
   const [isVisible, setIsVisible] = useState(false);
+  const [zoomValue, setZoomValue] = useState<number>(7);
+  const [center, setCenter] = useState<number[]>([27.9534, 53.7098]);
 
   const toggleVisibility = () => {
     setIsVisible(!isVisible);
@@ -68,8 +70,20 @@ const MapComponent = () => {
       const view = new MapView({
         container: MapElement.current,
         map: map,
-        center: [27.9534, 53.7098],
-        zoom: 7,
+        center: center,
+        zoom: zoomValue,
+      });
+
+      view.watch("zoom", (newValue: number) => {
+        if (newValue) {
+          setZoomValue(newValue);
+        }
+      });
+  
+      view.watch("center", (newValue: [number]) => {
+        if (newValue) {
+          setCenter(newValue);
+        }
       });
 
       const waterwaysLayer = new FeatureLayer({
