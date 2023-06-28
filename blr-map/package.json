@@ -6,13 +6,17 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx && prettier --check .",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@arcgis/core": "^4.26.5",
+    "@arcgis/core": "4.26",
+    "@types/arcgis-js-api": "^4.27.0",
+    "esri-loader": "^3.7.0",
+    "prettier": "^2.8.8",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "sass": "^1.62.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.37",
