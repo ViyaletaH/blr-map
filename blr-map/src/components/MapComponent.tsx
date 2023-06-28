@@ -18,6 +18,7 @@ export interface Legend {
 
 const MapComponent = () => {
   const MapElement = useRef(null);
+  const mapRef = useRef<any | null>(null);
   const [legendInfo, setLegendInfo] = useState<Legend[]>([]);
   const [visibleLayers, setVisibleLayers] = useState<string[]>([]);
   const [address, setAddress] = useState<string>('');
@@ -49,7 +50,7 @@ const MapComponent = () => {
 
   useEffect(() => {
     const setupMap = async () => {
-      const [esriConfig, Map, MapView, FeatureLayer, locator, Graphic] = await loadModules([
+      const [esriConfig, Map, MapView] = await loadModules([
         'esri/config',
         'esri/Map',
         'esri/views/MapView',
@@ -57,8 +58,6 @@ const MapComponent = () => {
         'esri/rest/locator',
         'esri/Graphic',
       ]);
-
-      const legendItems = [];
 
       esriConfig.apiKey =
         'AAPK1637ff3ebf254471ab9a28b47a8a7ebetBHKpjaGpWHEtmgl6lIa1DeZieisAZPMBvawPi5frYF7ksc97kV5SgJxxyg766h5';
@@ -86,6 +85,24 @@ const MapComponent = () => {
         }
       });
 
+      mapRef.current = {map, view};
+      
+    }
+    setupMap();
+  }, [])
+
+
+    useEffect(() => {
+
+      if(mapRef.current) {
+      const setupLayers = async () => {
+        const [ FeatureLayer, locator, Graphic] = await loadModules([
+          'esri/layers/FeatureLayer',
+          'esri/rest/locator',
+          'esri/Graphic',
+        ]);
+
+      const legendItems = [];
       const waterwaysLayer = new FeatureLayer({
         url: LayerURLs.Waterways,
         visible: visibleLayers.includes('Waterways'),
@@ -106,7 +123,7 @@ const MapComponent = () => {
         visible: visibleLayers.includes('Botanic'),
       });
 
-      map.addMany([waterwaysLayer, roadsLayer, touristLayer, botanicLayer]);
+      mapRef.current.map.addMany([waterwaysLayer, roadsLayer, touristLayer, botanicLayer]);
 
       const [waterwaysLayerInfo, roadsLayerInfo, touristLayerInfo, botanicLayerInfo] =
         await Promise.all([
@@ -169,14 +186,14 @@ const MapComponent = () => {
               content: `${address}<br>${result.location.longitude}`,
             },
           });
-          view.graphics.add(resultGraphic);
-          view
+          mapRef.current.view.graphics.add(resultGraphic);
+          mapRef.current.view
             .goTo({
               target: resultGraphic,
               zoom: 12,
             })
             .then(() => {
-              view.popup.open({
+              mapRef.current.view.popup.open({
                 features: [resultGraphic],
                 location: resultGraphic.geometry,
               });
@@ -188,13 +205,14 @@ const MapComponent = () => {
       };
 
       locator.addressToLocations(serviceUrl, params).then((results: [object]) => {
-        view.when(() => {
+        mapRef.current.view.when(() => {
           showResult(results);
         });
       });
     };
 
-    setupMap();
+    setupLayers();
+  }
   }, [visibleLayers, address]);
 
   return (
