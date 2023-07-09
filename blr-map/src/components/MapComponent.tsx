@@ -2,6 +2,7 @@ import Search from './Search';
 import Guide from './Guide';
 import { useEffect, useRef, useState } from 'react';
 import { loadModules } from 'esri-loader';
+import LayerList from '@arcgis/core/widgets/LayerList';
 
 enum LayerURLs {
   Waterways = 'https://services-eu1.arcgis.com/zci5bUiJ8olAal7N/arcgis/rest/services/OSM_Waterways_EU/FeatureServer/0',
@@ -18,13 +19,13 @@ export interface Legend {
 
 const MapComponent = () => {
   const MapElement = useRef(null);
-  const mapRef = useRef<any | null>(null);
   const [legendInfo, setLegendInfo] = useState<Legend[]>([]);
   const [visibleLayers, setVisibleLayers] = useState<string[]>([]);
   const [address, setAddress] = useState<string>('');
   const [isVisible, setIsVisible] = useState(false);
   const [zoomValue, setZoomValue] = useState<number>(7);
   const [center, setCenter] = useState<number[]>([27.9534, 53.7098]);
+  const layerListRef = useRef<LayerList | null>(null);
 
   const toggleVisibility = () => {
     setIsVisible(!isVisible);
@@ -46,18 +47,31 @@ const MapComponent = () => {
     } else {
       setVisibleLayers((prevVisibleLayers) => [...prevVisibleLayers, layerName]);
     }
+
+    if (layerListRef.current) {
+      const layerItem = layerListRef.current.operationalItems.find(
+        (item) => item.title === layerName
+      );
+
+      if (layerItem) {
+        layerItem.visible = !isVisible;
+      }
+    }
   };
 
   useEffect(() => {
     const setupMap = async () => {
-      const [esriConfig, Map, MapView] = await loadModules([
+      const [esriConfig, Map, MapView, FeatureLayer, locator, Graphic, LayerList] = await loadModules([
         'esri/config',
         'esri/Map',
         'esri/views/MapView',
         'esri/layers/FeatureLayer',
         'esri/rest/locator',
         'esri/Graphic',
+        'esri/widgets/LayerList'
       ]);
+
+      const legendItems = [];
 
       esriConfig.apiKey =
         'AAPK1637ff3ebf254471ab9a28b47a8a7ebetBHKpjaGpWHEtmgl6lIa1DeZieisAZPMBvawPi5frYF7ksc97kV5SgJxxyg766h5';
@@ -73,36 +87,30 @@ const MapComponent = () => {
         zoom: zoomValue,
       });
 
-      view.watch("zoom", (newValue: number) => {
+      view.when(() => {
+        const layerList = new LayerList({
+          view: view,
+          listItemCreatedFunction: (event: any) => {
+            const item = event.item;
+          },
+        });
+
+        view.ui.add(layerList, 'top-right');
+        layerListRef.current = layerList;
+      });
+
+      view.watch('zoom', (newValue: number) => {
         if (newValue) {
           setZoomValue(newValue);
         }
       });
-  
-      view.watch("center", (newValue: [number]) => {
+
+      view.watch('center', (newValue: [number]) => {
         if (newValue) {
           setCenter(newValue);
         }
       });
 
-      mapRef.current = {map, view};
-      
-    }
-    setupMap();
-  }, [])
-
-
-    useEffect(() => {
-
-      if(mapRef.current) {
-      const setupLayers = async () => {
-        const [ FeatureLayer, locator, Graphic] = await loadModules([
-          'esri/layers/FeatureLayer',
-          'esri/rest/locator',
-          'esri/Graphic',
-        ]);
-
-      const legendItems = [];
       const waterwaysLayer = new FeatureLayer({
         url: LayerURLs.Waterways,
         visible: visibleLayers.includes('Waterways'),
@@ -123,7 +131,7 @@ const MapComponent = () => {
         visible: visibleLayers.includes('Botanic'),
       });
 
-      mapRef.current.map.addMany([waterwaysLayer, roadsLayer, touristLayer, botanicLayer]);
+      map.addMany([waterwaysLayer, roadsLayer, touristLayer, botanicLayer]);
 
       const [waterwaysLayerInfo, roadsLayerInfo, touristLayerInfo, botanicLayerInfo] =
         await Promise.all([
@@ -186,14 +194,14 @@ const MapComponent = () => {
               content: `${address}<br>${result.location.longitude}`,
             },
           });
-          mapRef.current.view.graphics.add(resultGraphic);
-          mapRef.current.view
+          view.graphics.add(resultGraphic);
+          view
             .goTo({
               target: resultGraphic,
               zoom: 12,
             })
             .then(() => {
-              mapRef.current.view.popup.open({
+              view.popup.open({
                 features: [resultGraphic],
                 location: resultGraphic.geometry,
               });
@@ -205,15 +213,14 @@ const MapComponent = () => {
       };
 
       locator.addressToLocations(serviceUrl, params).then((results: [object]) => {
-        mapRef.current.view.when(() => {
+        view.when(() => {
           showResult(results);
         });
       });
     };
 
-    setupLayers();
-  }
-  }, [visibleLayers, address]);
+    setupMap();
+  }, []);
 
   return (
     <>
