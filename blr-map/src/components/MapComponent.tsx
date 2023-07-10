@@ -226,7 +226,7 @@ const MapComponent = () => {
     <>
       <div>
         <Search onAddressInput={handleAddressInput} />
-        <Guide legend={legendInfo} updateLayerVisibility={updateLayerVisibility} />
+        <Guide />
       </div>
       <img
         className="default-icon"

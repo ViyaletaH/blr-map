@@ -1,30 +1,10 @@
-import { Legend } from './MapComponent';
 import { useState } from 'react';
 
-interface GuideProps {
-  legend: Legend[];
-  updateLayerVisibility: (layerName: string) => void;
-}
-
-const Guide = ({ legend, updateLayerVisibility }: GuideProps) => {
+const Guide = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [chosen, setChosen] = useState<string | null>(null);
 
   const toggleVisibility = () => {
     setIsVisible(!isVisible);
-  };
-
-  const toggleChoice = (layerName: string) => {
-    if (chosen === layerName) {
-      setChosen(null);
-    } else {
-      setChosen(layerName);
-    }
-  };
-
-  const handleClick = (layerName: string) => {
-    updateLayerVisibility(layerName);
-    toggleChoice(layerName);
   };
 
   return (
@@ -36,17 +16,7 @@ const Guide = ({ legend, updateLayerVisibility }: GuideProps) => {
         onClick={toggleVisibility}
         title="Map guide"
       />
-      <div className={isVisible ? 'guide-list' : 'guide-list-hidden'}>
-        <h2>Legend</h2>
-        {legend.map((item: Legend, index: number) => (
-          <div key={index}>
-            <label className="checkbox-variant">
-              <input type="checkbox" onClick={() => handleClick(item.layerName)} />
-              {item.layerName}
-            </label>
-          </div>
-        ))}
-      </div>
+      {/* <div className={isVisible ?  'esri-component esri-layer-list esri-widget esri-widget--panel' : 'guide-list-hidden'}/> */}
     </div>
   );
 };
