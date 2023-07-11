@@ -19,8 +19,6 @@ export interface Legend {
 
 const MapComponent = () => {
   const MapElement = useRef(null);
-  const [legendInfo, setLegendInfo] = useState<Legend[]>([]);
-  const [visibleLayers, setVisibleLayers] = useState<string[]>([]);
   const [address, setAddress] = useState<string>('');
   const [isVisible, setIsVisible] = useState(false);
   const [zoomValue, setZoomValue] = useState<number>(7);
@@ -33,33 +31,11 @@ const MapComponent = () => {
 
   const serviceUrl = 'https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer';
 
-  const handleAddressInput = (inputAddress: string) => {
-    setAddress(inputAddress);
+  const handleAddressInput = (address: string) => {
+    setAddress(address);
   };
 
-  const updateLayerVisibility = (layerName: string) => {
-    const isVisible = visibleLayers.includes(layerName);
-
-    if (isVisible) {
-      setVisibleLayers((prevVisibleLayers) =>
-        prevVisibleLayers.filter((layer) => layer !== layerName)
-      );
-    } else {
-      setVisibleLayers((prevVisibleLayers) => [...prevVisibleLayers, layerName]);
-    }
-
-    if (layerListRef.current) {
-      const layerItem = layerListRef.current.operationalItems.find(
-        (item) => item.title === layerName
-      );
-
-      if (layerItem) {
-        layerItem.visible = !isVisible;
-      }
-    }
-  };
-
-  useEffect(() => {
+   useEffect(() => {
     const setupMap = async () => {
       const [esriConfig, Map, MapView, FeatureLayer, locator, Graphic, LayerList] = await loadModules([
         'esri/config',
@@ -70,8 +46,6 @@ const MapComponent = () => {
         'esri/Graphic',
         'esri/widgets/LayerList'
       ]);
-
-      const legendItems = [];
 
       esriConfig.apiKey =
         'AAPK1637ff3ebf254471ab9a28b47a8a7ebetBHKpjaGpWHEtmgl6lIa1DeZieisAZPMBvawPi5frYF7ksc97kV5SgJxxyg766h5';
@@ -90,9 +64,6 @@ const MapComponent = () => {
       view.when(() => {
         const layerList = new LayerList({
           view: view,
-          listItemCreatedFunction: (event: any) => {
-            const item = event.item;
-          },
         });
 
         view.ui.add(layerList, 'top-right');
@@ -113,56 +84,21 @@ const MapComponent = () => {
 
       const waterwaysLayer = new FeatureLayer({
         url: LayerURLs.Waterways,
-        visible: visibleLayers.includes('Waterways'),
       });
 
       const roadsLayer = new FeatureLayer({
         url: LayerURLs.Roads,
-        visible: visibleLayers.includes('Roads'),
       });
 
       const touristLayer = new FeatureLayer({
         url: LayerURLs.Tourist,
-        visible: visibleLayers.includes('Tourist'),
       });
 
       const botanicLayer = new FeatureLayer({
         url: LayerURLs.Botanic,
-        visible: visibleLayers.includes('Botanic'),
       });
 
       map.addMany([waterwaysLayer, roadsLayer, touristLayer, botanicLayer]);
-
-      const [waterwaysLayerInfo, roadsLayerInfo, touristLayerInfo, botanicLayerInfo] =
-        await Promise.all([
-          waterwaysLayer.load(),
-          roadsLayer.load(),
-          touristLayer.load(),
-          botanicLayer.load(),
-        ]);
-
-      legendItems.push({
-        layerName: 'Waterways',
-        symbol: waterwaysLayerInfo.renderer.symbol,
-        label: 'Waterways',
-      });
-      legendItems.push({
-        layerName: 'Roads',
-        symbol: roadsLayerInfo.renderer.symbol,
-        label: 'Roads',
-      });
-      legendItems.push({
-        layerName: 'Tourist',
-        symbol: touristLayerInfo.renderer.symbol,
-        label: 'Tourist',
-      });
-      legendItems.push({
-        layerName: 'Botanic',
-        symbol: botanicLayerInfo.renderer.symbol,
-        label: 'Botanic',
-      });
-
-      setLegendInfo(legendItems);
 
       const params = {
         address: {

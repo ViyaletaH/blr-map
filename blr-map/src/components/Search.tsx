@@ -1,7 +1,7 @@
 import { ChangeEvent, useState, KeyboardEventHandler } from 'react';
 
 interface SearchParams {
-  onAddressInput: (inputAddress: string) => void;
+  onAddressInput: (address: string) => void;
 }
 
 const Search = ({ onAddressInput }: SearchParams) => {
