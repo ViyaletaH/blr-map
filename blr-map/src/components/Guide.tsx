@@ -6,7 +6,6 @@ const Guide = () => {
         className="guide-arrow"
         src="/arrow.png"
         alt="guiding list"
-        title="Map guide"
       />
     </div>
   );

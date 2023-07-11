@@ -89,68 +89,9 @@ $transparent: #ffffff8f;
       width: 3rem;
       height: 3rem;
       transform: scale(-1, 1);
-      cursor: pointer;
       animation: transformation 6s infinite;
       z-index: 100;
     }
-
-    // .guide-list {
-    //   h2 {
-    //     color: $text-violet;
-    //     margin-block-start: 0px;
-    //   }
-
-    //   display: flex;
-    //   flex-direction: column;
-    //   justify-content: space-between;
-    //   align-items: flex-start;
-    //   background-color: $transparent;
-    //   border-radius: 15px;
-    //   padding: 10%;
-    //   width: 9rem;
-
-    //   .layer-name {
-    //     cursor: pointer;
-    //   }
-
-    //   .checkbox-variant {
-    //     display: flex;
-    //     align-items: center;
-    //     justify-content: space-between;
-    //     input[type='checkbox'] {
-    //       appearance: none;
-    //       -webkit-appearance: none;
-    //       -moz-appearance: none;
-    //       width: 16px;
-    //       height: 16px;
-    //       border: 2px solid #ccc;
-    //       border-radius: 4px;
-    //       outline: none;
-    //       cursor: pointer;
-    //       position: relative;
-    //     }
-
-    //     input[type='checkbox']::before {
-    //       content: '';
-    //       position: absolute;
-    //       top: 0px;
-    //       left: 3px;
-    //       width: 4px;
-    //       height: 8px;
-    //       border: solid $main-violet;
-    //       border-width: 0 3px 3px 0;
-    //       -webkit-transform: rotate(45deg);
-    //       -ms-transform: rotate(45deg);
-    //       transform: rotate(45deg);
-    //       transition: background-color 0.3s ease;
-    //       opacity: 0;
-    //     }
-
-    //     input[type='checkbox']:checked::before {
-    //       opacity: 1;
-    //     }
-    //   }
-    // }
 
     .guide-list-hidden {
       display: none;
