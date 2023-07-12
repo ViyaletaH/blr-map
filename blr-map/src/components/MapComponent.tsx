@@ -31,8 +31,8 @@ const MapComponent = () => {
 
   const serviceUrl = 'https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer';
 
-  const handleAddressInput = (address: string) => {
-    setAddress(address);
+  const handleAddressInput = (inputAddress: string) => {
+    setAddress(inputAddress);
   };
 
    useEffect(() => {
@@ -156,7 +156,7 @@ const MapComponent = () => {
     };
 
     setupMap();
-  }, []);
+  }, [address]);
 
   return (
     <>
